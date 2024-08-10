@@ -1,19 +1,22 @@
 class Solution {
     public int findMaxLength(int[] nums) {
-        int ans = 0;
-        for (int i = 0; i < nums.length; i++) {
-            int zeroes = 0, ones = 0;
-            for (int j = i; j < nums.length; j++) {
-                if (nums[j] == 0) {
-                    zeroes++;
-                } else {
-                    ones++;
-                }
-                if (zeroes == ones) {
-                    ans = Math.max(ans, j - i + 1);
-                }
+        int N = nums.length;
+        int[] mp = new int[2*N+2];
+        int current = N;
+        int result = 0;
+
+        for(int i = 0; i < N; i++) {
+            current += (nums[i] << 1) - 1;
+            if(current == N) {
+                result = i+1;
+            }
+            else if(mp[current] == 0) {
+                mp[current] = i+1;
+            }
+            else {
+                result = Math.max(result, i - mp[current]+1);
             }
         }
-        return ans;
+        return result;
     }
 }
