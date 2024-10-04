@@ -8,7 +8,11 @@ class Solution {
             num=happiness[n-i-1];
             System.out.println(num);
             if (num>=0){
+                if(num-i < 0){
+                    res+=0;
+                }else{
                 res+=num-i;
+                }
             }
         }
         return res;
