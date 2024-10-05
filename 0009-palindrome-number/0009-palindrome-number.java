@@ -5,7 +5,6 @@ class Solution {
         }
         int z=x;
         int len=String.valueOf(x).length();
-        
         int y=0;
         for(int i=0;i<len;i++){
             int flag=x%10;
