@@ -1,37 +1,32 @@
 class Solution {
     public List<String> letterCombinations(String digits) {
-        List<String> ans=new ArrayList<>();
+        List<String> result =new ArrayList<>();
         if(digits.length()==0){
-            return ans;
+            return result;
         }
-        Map<Character,String> mapping = new HashMap<>();
-        mapping.put('2',"abc");
-        mapping.put('3',"def");
-        mapping.put('4',"ghi");
-        mapping.put('5',"jkl");
-        mapping.put('6',"mno");
-        mapping.put('7',"pqrs");
-        mapping.put('8',"tuv");
-        mapping.put('9',"wxyz");
+        Map<Character,String> map=new HashMap<>();
+        map.put('2',"abc");
+        map.put('3',"def");
+        map.put('4',"ghi");
+        map.put('5',"jkl");
+        map.put('6',"mno");
+        map.put('7',"pqrs");
+        map.put('8',"tuv");
+        map.put('9',"wxyz");
 
-
-        solve(digits,"",0,ans,mapping);
-        return ans;        
+        solve(digits,"",0,result,map);
+        return result;        
     }
-
-    private void solve(String digit,String output,int index,List<String> ans, Map<Character,String> mapping){
+    private void solve(String digit,String out,int index,List<String> result, Map<Character,String> map){
         if(index>=digit.length()){
-            ans.add(output);
+            result.add(out);
             return;
         }
-        String value=mapping.get(digit.charAt(index));
+        String value=map.get(digit.charAt(index));
         for(int i=0;i<value.length();i++){
-            output=output+value.charAt(i);
-            solve(digit,output,index+1,ans,mapping);
-            output=output.substring(0,index);
-
+            out=out+value.charAt(i);
+            solve(digit,out,index+1,result,map);
+            out=out.substring(0,index);
         }
-
-
     }
 }
