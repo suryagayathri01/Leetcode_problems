@@ -1,20 +1,21 @@
 class Solution {
-
     public boolean isCircularSentence(String sentence) {
-        // Use the split function to store the words in an array.
-        String words[] = sentence.split(" ");
-        int n = words.length;
-
-        // Start comparing from the last character of the last word.
-        char last = words[n - 1].charAt(words[n - 1].length() - 1);
-
-        for (int i = 0; i < n; i++) {
-            // If this character is not equal to the first character of current word, return
-            // false.
-            if (words[i].charAt(0) != last) return false;
-            last = words[i].charAt(words[i].length() - 1);
+        List<String> list=Arrays.asList(sentence.split(" "));
+        int len=list.size();
+        /*if(len==1){
+            if(list.get(0).charAt(0) != list.get(0).charAt(list.get(0).length()-1)) return true;
+            else return false;
+        }*/
+        if(list.get(0).charAt(0) != list.get(len-1).charAt(list.get(len-1).length()-1)) return false;
+        for(int i=0;i<len-1;i++){
+            if(list.get(i).charAt(list.get(i).length()-1) != list.get(i+1).charAt(0)) return false;
         }
-
         return true;
+        
+        
+        //System.out.println(list.get(0).charAt(list.get(0).length()-1));
+        //return false;
+
+        
     }
 }
