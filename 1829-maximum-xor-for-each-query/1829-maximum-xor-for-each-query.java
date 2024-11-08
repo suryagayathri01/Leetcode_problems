@@ -1,7 +1,6 @@
 class Solution {
     public int[] getMaximumXor(int[] nums, int maximumBit) {
         int value=(1 << maximumBit)-1;
-        //System.out.println(2 ^ 3 ^ 4 ^ 7 ^ value);
         int[] xor=new int[nums.length];
         int j=nums.length-1;
         int flag=0;
