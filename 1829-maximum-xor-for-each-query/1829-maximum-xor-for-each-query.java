@@ -1,0 +1,18 @@
+class Solution {
+    public int[] getMaximumXor(int[] nums, int maximumBit) {
+        int value=(int)Math.pow(2,maximumBit)-1;
+        //System.out.println(2 ^ 3 ^ 4 ^ 7 ^ value);
+        int[] xor=new int[nums.length];
+        int j=nums.length-1;
+        int flag=0;
+        int[] arr=new int[nums.length];
+        for(int i=0;i<nums.length;i++){
+            xor[j]=nums[i] ^ flag;
+            arr[j]=value ^ xor[j];
+            flag=xor[j];
+            j--;
+        }
+        return arr;
+        
+    }
+}
