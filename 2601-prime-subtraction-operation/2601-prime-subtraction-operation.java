@@ -1,54 +1,59 @@
 class Solution {
 
-    public boolean isPrime(int n) {
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
+    public boolean primeSubOperation(int[] nums) {
+        int maxElement = getMaxElement(nums);
+
+        // Store the sieve array.
+        boolean[] sieve = new boolean[maxElement + 1];
+        fill(sieve, true);
+        sieve[1] = false;
+        for (int i = 2; i <= Math.sqrt(maxElement + 1); i++) {
+            if (sieve[i]) {
+                for (int j = i * i; j <= maxElement; j += i) {
+                    sieve[j] = false;
+                }
+            }
+        }
+
+        // Start by storing the currValue as 1, and the initial index as 0.
+        int currValue = 1;
+        int i = 0;
+        while (i < nums.length) {
+            // Store the difference needed to make nums[i] equal to currValue.
+            int difference = nums[i] - currValue;
+
+            // If difference is less than 0, then nums[i] is already less than
+            // currValue. Return false in this case.
+            if (difference < 0) {
                 return false;
+            }
+
+            // If the difference is prime or zero, then nums[i] can be made
+            // equal to currValue.
+            if (sieve[difference] == true || difference == 0) {
+                i++;
+                currValue++;
+            } else {
+                // Otherwise, try for the next currValue.
+                currValue++;
             }
         }
         return true;
     }
 
-    public boolean primeSubOperation(int[] nums) {
-        int maxElement = Integer.MIN_VALUE;
+    private int getMaxElement(int[] nums) {
+        int max = -1;
         for (int num : nums) {
-            maxElement = Math.max(maxElement, num);
-        }
-
-        // Store the previousPrime array.
-        int[] previousPrime = new int[maxElement + 1];
-        for (int i = 2; i <= maxElement; i++) {
-            if (isPrime(i)) {
-                previousPrime[i] = i;
-            } else {
-                previousPrime[i] = previousPrime[i - 1];
+            if (num > max) {
+                max = num;
             }
         }
+        return max;
+    }
 
-        for (int i = 0; i < nums.length; i++) {
-            int bound;
-            // In case of first index, we need to find the largest prime less
-            // than nums[0].
-            if (i == 0) {
-                bound = nums[0];
-            } else {
-                // Otherwise, we need to find the largest prime, that makes the
-                // current element closest to the previous element.
-                bound = nums[i] - nums[i - 1];
-            }
-
-            // If the bound is less than or equal to 0, then the array cannot be
-            // made strictly increasing.
-            if (bound <= 0) {
-                return false;
-            }
-
-            // Find the largest prime less than bound.
-            int largestPrime = previousPrime[bound - 1];
-
-            // Subtract this value from nums[i].
-            nums[i] -= largestPrime;
+    private void fill(boolean[] arr, boolean value) {
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = value;
         }
-        return true;
     }
 }
