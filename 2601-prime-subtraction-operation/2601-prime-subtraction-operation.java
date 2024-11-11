@@ -1,54 +1,42 @@
-class Solution {
-    public int primenum(int n){
-        int m=n-1;
-        while(m>1){
-            int flag=0;
-            for(int i=2;i<=Math.sqrt(m);i++){
-                if(m%i==0){
-                    flag=1;
+public class Solution {
+
+    public boolean checkPrime(int x) {
+        for (int i = 2; i <= Math.sqrt(x); i++) {
+            if (x % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean primeSubOperation(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            int bound;
+            // In case of first index, we need to find the largest prime less than nums[0].
+            if (i == 0) {
+                bound = nums[0];
+            } else {
+                // Otherwise, we need to find the largest prime, that makes the current element closest to the previous element.
+                bound = nums[i] - nums[i - 1];
+            }
+
+            // If the bound is less than or equal to 0, then the array cannot be made strictly increasing.
+            if (bound <= 0) {
+                return false;
+            }
+
+            // Find the largest prime less than bound.
+            int largestPrime = 0;
+            for (int j = bound - 1; j >= 2; j--) {
+                if (checkPrime(j)) {
+                    largestPrime = j;
                     break;
                 }
             }
-            if(flag==0) return m;
-            m--;
-        }
-        return m;
-    }
-    public int sorted(int[] nums){
-        int flag=0;
-        int same=1;
-        for(int i=0;i<nums.length-1;i++){
-            if(nums[i]==nums[i+1]) same++;
-            if(nums[i]>nums[i+1]){
-                flag=1;
-                break;
-            }
-        }
-        if(same==nums.length && nums.length!=1) return 2;
-        return (flag==0)? 0 : 1;        
 
-    }
-    public boolean primeSubOperation(int[] nums) {
-        int[] nn={3,3,5,5};
-        if(Arrays.equals(nn,nums)) return false;
-        int index;
-        int match=sorted(nums);
-        if(match==0) return true;
-        else if(match==2) return false;
-        else{
-            for(int i=0;i<nums.length;i++){
-                int bound;
-                if(i==0) bound=nums[0];
-                else bound=nums[i]-nums[i-1];
-                if(bound<=0) return false;
-
-
-                int prime=primenum(bound);
-                nums[i]=nums[i]-prime;
-                
-            }
-            return true;
+            // Subtract this value from nums[i].
+            nums[i] = nums[i] - largestPrime;
         }
-        
+        return true;
     }
 }
