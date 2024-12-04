@@ -5,8 +5,9 @@ class Solution {
             if(nums[i+1]<=nums[i]) count=1;
             else {
                 count++;
-                max=Math.max(max,count);
             }
+            max=Math.max(max,count);
+            
         }
         return max;
     }
